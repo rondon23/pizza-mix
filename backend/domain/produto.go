@@ -13,16 +13,30 @@ type Produto struct {
 	FotoProduto  string  `db:"foto_produto"`
 }
 
-type ProdutoRepository interface {
-	ById(string) (*Produto, *errs.AppError)
+func (p Produto) ToNewProdutoResponseDto() *dto.NewProdutoResponse {
+	return &dto.NewProdutoResponse{p.Id}
 }
 
-func (p Produto) ToDto() dto.ProdutoResponse {
-	return dto.ProdutoResponse{
+type ProdutoRepository interface {
+	ById(string) (*Produto, *errs.AppError)
+	Save(p Produto) (*Produto, *errs.AppError)
+}
+
+func (p Produto) ToDto() dto.NewProdutoResponse {
+	return dto.NewProdutoResponse{
 		Id:           p.Id,
 		NomeProduto:  p.NomeProduto,
 		Descricao:    p.Descricao,
 		ValorProduto: p.ValorProduto,
 		FotoProduto:  p.FotoProduto,
+	}
+}
+
+func NewProduto(nomeProduto, descricao string, valorProduto float32, fotoProduto string) Produto {
+	return Produto{
+		NomeProduto:  nomeProduto,
+		Descricao:    descricao,
+		ValorProduto: valorProduto,
+		FotoProduto:  fotoProduto,
 	}
 }
