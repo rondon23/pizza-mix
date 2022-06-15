@@ -6,11 +6,11 @@ import (
 )
 
 type Produto struct {
-	ID           int     `json:"produto_id"`
-	NomeProduto  string  `json:"nome_produto"`
-	Descricao    string  `json:"descricao"`
-	ValorProduto float32 `json:"valor_produto"`
-	FotoProduto  string  `json:"foto_produto"`
+	Id           int     `db:"produto_id"`
+	NomeProduto  string  `db:"nome_produto"`
+	Descricao    string  `db:"descricao"`
+	ValorProduto float32 `db:"valor_produto"`
+	FotoProduto  string  `db:"foto_produto"`
 }
 
 type ProdutoRepository interface {
@@ -19,7 +19,7 @@ type ProdutoRepository interface {
 
 func (p Produto) ToDto() dto.ProdutoResponse {
 	return dto.ProdutoResponse{
-		Id:           p.ID,
+		Id:           p.Id,
 		NomeProduto:  p.NomeProduto,
 		Descricao:    p.Descricao,
 		ValorProduto: p.ValorProduto,

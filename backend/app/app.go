@@ -2,10 +2,10 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"pizza-backend/domain"
-	"pizza-backend/logger"
 	"pizza-backend/service"
 	"time"
 
@@ -14,23 +14,14 @@ import (
 )
 
 func sanityCheck() {
-	envProps := []string{
-		"SERVER_ADDRESS",
-		"SERVER_PORT",
-		"DB_USER",
-		"DB_PASSWD",
-		"DB_ADDR",
-		"DB_PORT",
-		"DB_NAME",
-	}
-	for _, k := range envProps {
-		if os.Getenv(k) == "" {
-			logger.Fatal(fmt.Sprintf("Enviroment variable %s not defined. Terminating application...", k))
-		}
+	if os.Getenv("SERVER_ADDRESS") == "" ||
+		os.Getenv("SERVER_PORT") == "" {
+		log.Fatal("Enviroment variable not defined...")
 	}
 }
 
 func Start() {
+
 	sanityCheck()
 
 	router := mux.NewRouter()
@@ -38,12 +29,17 @@ func Start() {
 	// wiring
 	dbClient := getDbClient()
 	produtoRepositoryDb := domain.NewProdutoRepositoryDb(dbClient)
-	ph := ProdutoHandlers{service.NewProdutoService(produtoRepositoryDb)}
+	ph := ProdutoHandlers{service: service.NewProdutoService(produtoRepositoryDb)}
 
 	// define routes
 	router.HandleFunc("/produto/{produto_id:[0-9]+}", ph.getProduto).
 		Methods(http.MethodGet).
 		Name("GetProdutoById")
+
+	// starting server
+	address := os.Getenv("SERVER_ADDRESS")
+	port := os.Getenv("SERVER_PORT")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", address, port), router))
 }
 
 func getDbClient() *sqlx.DB {
@@ -58,7 +54,7 @@ func getDbClient() *sqlx.DB {
 	if err != nil {
 		panic(err)
 	}
-	//See "Important settings" section.
+
 	client.SetConnMaxLifetime(time.Minute * 3)
 	client.SetMaxOpenConns(10)
 	client.SetMaxIdleConns(10)

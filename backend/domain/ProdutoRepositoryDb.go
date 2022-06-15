@@ -6,6 +6,8 @@ import (
 	"pizza-backend/logger"
 
 	"github.com/jmoiron/sqlx"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type ProdutoRepositoryDb struct {
@@ -15,6 +17,7 @@ type ProdutoRepositoryDb struct {
 func (p ProdutoRepositoryDb) ById(produto_id string) (*Produto, *errs.AppError) {
 	sqlGetProduto := "SELECT produto_id, nome_produto, descricao, valor_produto, foto_produto FROM produto where produto_id = ?"
 	var produto Produto
+
 	err := p.client.Get(&produto, sqlGetProduto, produto_id)
 	if err != nil {
 		logger.Error("Error while fetching product information: " + err.Error())
