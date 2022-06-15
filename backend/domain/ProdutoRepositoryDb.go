@@ -2,6 +2,7 @@ package domain
 
 import (
 	"pizza-backend/errs"
+	"strconv"
 
 	"pizza-backend/logger"
 
@@ -28,4 +29,22 @@ func (p ProdutoRepositoryDb) ById(produto_id string) (*Produto, *errs.AppError) 
 
 func NewProdutoRepositoryDb(dbClient *sqlx.DB) ProdutoRepositoryDb {
 	return ProdutoRepositoryDb{dbClient}
+}
+
+func (d ProdutoRepositoryDb) Save(p Produto) (*Produto, *errs.AppError) {
+	sqlInsert := "INSERT INTO pizza_mix.produto (nome_produto, descricao, valor_produto, foto_produto) VALUES(?, ?, ?, ?)"
+
+	result, err := d.client.Exec(sqlInsert, p.NomeProduto, p.Descricao, p.ValorProduto, p.FotoProduto)
+	if err != nil {
+		logger.Error("Error while creating new product: " + err.Error())
+		return nil, errs.NewUnexpectedError("Unexpected error from database")
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		logger.Error("Error while getting last insert id for new product: " + err.Error())
+		return nil, errs.NewUnexpectedError("Unexpected error from database")
+	}
+	p.Id = strconv.FormatInt(id, 10)
+	return &p, nil
 }

@@ -14,7 +14,7 @@ type ProdutoHandlers struct {
 
 func (ch *ProdutoHandlers) getProduto(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id := vars["customer_id"]
+	id := vars["produto_id"]
 
 	produto, err := ch.service.GetProduto(id)
 	if err != nil {

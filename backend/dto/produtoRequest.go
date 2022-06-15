@@ -1,7 +1,6 @@
 package dto
 
-type ProdutoResponse struct {
-	Id           string  `json:"produto_id"`
+type NewProdutoRequest struct {
 	NomeProduto  string  `json:"nome_produto"`
 	Descricao    string  `json:"descricao"`
 	ValorProduto float32 `json:"valor_produto"`

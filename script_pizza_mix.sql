@@ -15,3 +15,15 @@ INSERT INTO `produto` VALUES
 	(2001,'Portuguesa','Contem uma deliciosa pizza portuguesa', 31.5 ,'teste'),
 	(2002,'Calabresa','Contem uma deliciosa pizza de calabresa', 31.5 ,'teste');
 
+drop table if exists `carrinho`;
+create table `carrinho`(
+   `carrinho_id` int(11) not null auto_increment,
+   `produto_id` int(11) not null,
+   `preco` decimal(15,2) not null,
+   `quantidade` int(11) not null,
+   `total` decimal(15,2) not null,
+   `nome_produto` varchar(100) not null,
+   `subtotal` decimal(15,2) not null,
+   primary key (`carrinho_id`),
+   key `produto_FK` foreign key (`produto_id`) references `produto` (`produto_id`)
+) ENGINE=InnoDB auto_increment=2006 DEFAULT CHARSET= latin1;

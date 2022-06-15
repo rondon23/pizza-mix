@@ -6,7 +6,7 @@ import (
 )
 
 type Produto struct {
-	Id           int     `db:"produto_id"`
+	Id           string  `db:"produto_id"`
 	NomeProduto  string  `db:"nome_produto"`
 	Descricao    string  `db:"descricao"`
 	ValorProduto float32 `db:"valor_produto"`

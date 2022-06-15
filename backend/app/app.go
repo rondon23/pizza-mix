@@ -32,7 +32,8 @@ func Start() {
 	ph := ProdutoHandlers{service: service.NewProdutoService(produtoRepositoryDb)}
 
 	// define routes
-	router.HandleFunc("/produto/{produto_id:[0-9]+}", ph.getProduto).
+	router.
+		HandleFunc("/produto/{produto_id:[0-9]+}", ph.getProduto).
 		Methods(http.MethodGet).
 		Name("GetProdutoById")
 
