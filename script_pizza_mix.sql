@@ -25,5 +25,10 @@ create table `carrinho`(
    `nome_produto` varchar(100) not null,
    `subtotal` decimal(15,2) not null,
    primary key (`carrinho_id`),
-   key `produto_FK` foreign key (`produto_id`) references `produto` (`produto_id`)
+   key `produto_FK` (`produto_id`),
+   constraint `produto_FK` foreign key (`produto_id`) references `produto` (`produto_id`)
 ) ENGINE=InnoDB auto_increment=2006 DEFAULT CHARSET= latin1;
+INSERT INTO `carrinho` VALUES
+	(2000, 2000, 30.3, 5, 151.5, 'Pizza Frango com Catupiry', 151.5),
+	(2001, 2001, 31.5, 5, 151.5, 'Portuguesa', 151.5),
+	(2002, 2002, 31.5, 5, 157.5, 'Calabresa', 157.5);

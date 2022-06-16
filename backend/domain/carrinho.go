@@ -1,7 +1,7 @@
 package domain
 
 type Carrinho struct {
-	ID          int     `json:"id"`
+	Id          int     `json:"carrinho_id"`
 	CodProduto  int     `json:"cod_produto"`
 	Preco       float32 `json:"preco"`
 	Quantidade  int     `json:"quantidade"`
