@@ -14,7 +14,7 @@ type Produto struct {
 }
 
 func (p Produto) ToNewProdutoResponseDto() *dto.NewProdutoResponse {
-	return &dto.NewProdutoResponse{p.Id}
+	return &dto.NewProdutoResponse{p.Id, p.NomeProduto, p.Descricao, p.ValorProduto, p.FotoProduto}
 }
 
 type ProdutoRepository interface {

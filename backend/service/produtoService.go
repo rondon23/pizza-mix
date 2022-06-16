@@ -8,6 +8,7 @@ import (
 
 type ProdutoService interface {
 	GetProduto(string) (*dto.NewProdutoResponse, *errs.AppError)
+	NewProduto(dto.NewProdutoRequest) (*dto.NewProdutoResponse, *errs.AppError)
 }
 
 type DefaultProdutoService struct {
@@ -31,7 +32,7 @@ func (s DefaultProdutoService) NewProduto(req dto.NewProdutoRequest) (*dto.NewPr
 	if newProduto, err := s.repo.Save(produto); err != nil {
 		return nil, err
 	} else {
-		return newProduto.
+		return newProduto.ToNewProdutoResponseDto(), nil
 	}
 }
 

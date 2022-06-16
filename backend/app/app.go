@@ -33,9 +33,14 @@ func Start() {
 
 	// define routes
 	router.
-		HandleFunc("/produto/{produto_id:[0-9]+}", ph.getProduto).
+		HandleFunc("/produto/{produto_id:[0-9]+}", ph.GetProduto).
 		Methods(http.MethodGet).
 		Name("GetProdutoById")
+
+	router.
+		HandleFunc("/produto/", ph.NewProduto).
+		Methods(http.MethodPost).
+		Name("NewProduto")
 
 	// starting server
 	address := os.Getenv("SERVER_ADDRESS")
