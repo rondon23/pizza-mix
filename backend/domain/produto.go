@@ -19,7 +19,10 @@ func (p Produto) ToNewProdutoResponseDto() *dto.NewProdutoResponse {
 
 type ProdutoRepository interface {
 	ById(string) (*Produto, *errs.AppError)
+	GetAll() ([]Produto, *errs.AppError)
 	Save(p Produto) (*Produto, *errs.AppError)
+	Update(p Produto) (int64, *errs.AppError)
+	Delete(string) (int64, *errs.AppError)
 }
 
 func (p Produto) ToDto() dto.NewProdutoResponse {
@@ -34,6 +37,16 @@ func (p Produto) ToDto() dto.NewProdutoResponse {
 
 func NewProduto(nomeProduto, descricao string, valorProduto float32, fotoProduto string) Produto {
 	return Produto{
+		NomeProduto:  nomeProduto,
+		Descricao:    descricao,
+		ValorProduto: valorProduto,
+		FotoProduto:  fotoProduto,
+	}
+}
+
+func NewProdutoUpdate(id, nomeProduto, descricao string, valorProduto float32, fotoProduto string) Produto {
+	return Produto{
+		Id:           id,
 		NomeProduto:  nomeProduto,
 		Descricao:    descricao,
 		ValorProduto: valorProduto,

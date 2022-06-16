@@ -25,6 +25,15 @@ func (ch *ProdutoHandlers) GetProduto(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (ch *ProdutoHandlers) GetAllProduto(w http.ResponseWriter, r *http.Request) {
+	produto, err := ch.service.GetAllProduto()
+	if err != nil {
+		writeResponse(w, err.Code, err.AsMessage())
+	} else {
+		writeResponse(w, http.StatusOK, produto)
+	}
+}
+
 func (ch ProdutoHandlers) NewProduto(w http.ResponseWriter, r *http.Request) {
 	var request dto.NewProdutoRequest
 	err := json.NewDecoder(r.Body).Decode(&request)
@@ -37,6 +46,33 @@ func (ch ProdutoHandlers) NewProduto(w http.ResponseWriter, r *http.Request) {
 		} else {
 			writeResponse(w, http.StatusCreated, produto)
 		}
+	}
+}
+
+func (ch ProdutoHandlers) UpdateProduto(w http.ResponseWriter, r *http.Request) {
+	var request dto.NewProdutoResponse
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		writeResponse(w, http.StatusBadRequest, err.Error())
+	} else {
+		produto, appError := ch.service.UpdateProduto(request)
+		if appError != nil {
+			writeResponse(w, appError.Code, appError.AsMessage())
+		} else {
+			writeResponse(w, http.StatusCreated, produto)
+		}
+	}
+}
+
+func (ch *ProdutoHandlers) DeleteProduto(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["produto_id"]
+
+	produto, err := ch.service.DeleteProduto(id)
+	if err != nil {
+		writeResponse(w, err.Code, err.AsMessage())
+	} else {
+		writeResponse(w, http.StatusOK, produto)
 	}
 }
 

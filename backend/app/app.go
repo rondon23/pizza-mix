@@ -38,9 +38,24 @@ func Start() {
 		Name("GetProdutoById")
 
 	router.
+		HandleFunc("/produto/", ph.GetAllProduto).
+		Methods(http.MethodGet).
+		Name("GetAllProduto")
+
+	router.
 		HandleFunc("/produto/", ph.NewProduto).
 		Methods(http.MethodPost).
 		Name("NewProduto")
+
+	router.
+		HandleFunc("/produto/", ph.UpdateProduto).
+		Methods(http.MethodPut).
+		Name("UpdateProduto")
+
+	router.
+		HandleFunc("/produto/{produto_id:[0-9]+}", ph.DeleteProduto).
+		Methods(http.MethodDelete).
+		Name("DeleteProduto")
 
 	// starting server
 	address := os.Getenv("SERVER_ADDRESS")
