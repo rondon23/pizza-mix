@@ -23,7 +23,7 @@ create table `carrinho`(
    `quantidade` int(11) not null,
    `total` decimal(15,2) not null,
    `nome_produto` varchar(100) not null,
-   `subtotal` decimal(15,2) not null,
+   `sub_total` decimal(15,2) not null,
    primary key (`carrinho_id`),
    key `produto_FK` (`produto_id`),
    constraint `produto_FK` foreign key (`produto_id`) references `produto` (`produto_id`)

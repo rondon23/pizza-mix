@@ -31,6 +31,9 @@ func Start() {
 	produtoRepositoryDb := domain.NewProdutoRepositoryDb(dbClient)
 	ph := ProdutoHandlers{service: service.NewProdutoService(produtoRepositoryDb)}
 
+	carrinhoRepositoryDb := domain.NewCarrinhoRepositoryDb(dbClient)
+	ca := CarrinhoHandlers{service: service.NewCarrinhoService(carrinhoRepositoryDb)}
+
 	// define routes for Produto
 	router.
 		HandleFunc("/produto/{produto_id:[0-9]+}", ph.GetProduto).
@@ -58,6 +61,15 @@ func Start() {
 		Name("DeleteProduto")
 
 	// define routes for Carrinho
+	router.
+		HandleFunc("/carrinho/{carrinho_id:[0-9]+}", ca.GetCarrinho).
+		Methods(http.MethodGet).
+		Name("GetCarrinhoById")
+
+	router.
+		HandleFunc("/carrinho/", ca.NewCarrinho).
+		Methods(http.MethodPost).
+		Name("NewCarrinho")
 
 	// starting server
 	address := os.Getenv("SERVER_ADDRESS")
