@@ -9,6 +9,7 @@ import (
 type CarrinhoService interface {
 	GetCarrinho(id string) (*dto.NewCarrinhoResponse, *errs.AppError)
 	NewCarrinho(req dto.NewCarrinhoRequest) (*dto.NewCarrinhoResponse, *errs.AppError)
+	GetAllCarrinho() ([]dto.NewCarrinhoResponse, *errs.AppError)
 }
 
 type DefaultCarrinhoService struct {
@@ -22,6 +23,21 @@ func (c DefaultCarrinhoService) GetCarrinho(id string) (*dto.NewCarrinhoResponse
 	}
 	response := p.ToDto()
 	return &response, nil
+}
+
+func (s DefaultCarrinhoService) GetAllCarrinho() ([]dto.NewCarrinhoResponse, *errs.AppError) {
+	carrinhos, err := s.repo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	response := make([]dto.NewCarrinhoResponse, 0)
+
+	for _, c := range carrinhos {
+		response = append(response, c.ToDto())
+	}
+
+	return response, nil
 }
 
 func (s DefaultCarrinhoService) NewCarrinho(req dto.NewCarrinhoRequest) (*dto.NewCarrinhoResponse, *errs.AppError) {

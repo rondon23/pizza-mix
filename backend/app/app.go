@@ -67,6 +67,11 @@ func Start() {
 		Name("GetCarrinhoById")
 
 	router.
+		HandleFunc("/carrinho/", ca.GetAllCarrinho).
+		Methods(http.MethodGet).
+		Name("GetAllCarrinho")
+
+	router.
 		HandleFunc("/carrinho/", ca.NewCarrinho).
 		Methods(http.MethodPost).
 		Name("NewCarrinho")

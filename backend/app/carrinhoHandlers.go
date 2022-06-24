@@ -25,6 +25,15 @@ func (ch *CarrinhoHandlers) GetCarrinho(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
+func (ch *CarrinhoHandlers) GetAllCarrinho(w http.ResponseWriter, r *http.Request) {
+	carrinho, err := ch.service.GetAllCarrinho()
+	if err != nil {
+		writeResponse(w, err.Code, err.AsMessage())
+	} else {
+		writeResponse(w, http.StatusOK, carrinho)
+	}
+}
+
 func (ch CarrinhoHandlers) NewCarrinho(w http.ResponseWriter, r *http.Request) {
 	var request dto.NewCarrinhoRequest
 	err := json.NewDecoder(r.Body).Decode(&request)

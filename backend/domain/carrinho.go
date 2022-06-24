@@ -22,6 +22,7 @@ func (p Carrinho) ToNewCarrinhoResponseDto() *dto.NewCarrinhoResponse {
 type CarrinhoRepository interface {
 	ById(string) (*Carrinho, *errs.AppError)
 	Save(p Carrinho) (*Carrinho, *errs.AppError)
+	GetAll() ([]Carrinho, *errs.AppError)
 }
 
 func NewCarrinho(codProduto, quantidade int, preco, subTotal, total float32, nomeProduto string) Carrinho {

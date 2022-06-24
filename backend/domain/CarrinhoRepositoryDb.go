@@ -16,6 +16,18 @@ func NewCarrinhoRepositoryDb(dbClient *sqlx.DB) CarrinhoRepositoryDb {
 	return CarrinhoRepositoryDb{dbClient}
 }
 
+func (p CarrinhoRepositoryDb) GetAll() ([]Carrinho, *errs.AppError) {
+	sqlGetCarrinho := "SELECT carrinho_id, produto_id, preco, quantidade, total, nome_produto, sub_total FROM carrinho"
+	carrinhos := make([]Carrinho, 0)
+
+	err := p.client.Select(&carrinhos, sqlGetCarrinho)
+	if err != nil {
+		logger.Error("Error while fetching carrinho information: " + err.Error())
+		return nil, errs.NewUnexpectedError("unexpected database error")
+	}
+	return carrinhos, nil
+}
+
 func (c CarrinhoRepositoryDb) ById(carrinho_id string) (*Carrinho, *errs.AppError) {
 	sqlGetCarrinho := "SELECT carrinho_id, produto_id, preco, quantidade, total, nome_produto, sub_total FROM carrinho WHERE carrinho_id = ?"
 
