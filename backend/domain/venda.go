@@ -3,10 +3,10 @@ package domain
 import "time"
 
 type Venda struct {
-	ID          int       `json:"id"`
-	DataVenda   time.Time `json:"date_venda"`
-	Valor       float32   `json:"valor"`
-	TotalVenda  float32   `json:"total_venda"`
-	CodCliente  int       `json:"cod_cliente"`
-	NomeCliente string    `json:"nome_cliente"`
+	ID          int       `db:"id"`
+	DataVenda   time.Time `db:"date_venda"`
+	Valor       float32   `db:"valor"`
+	TotalVenda  float32   `db:"total_venda"`
+	CodCliente  int       `db:"cod_cliente"`
+	NomeCliente string    `db:"nome_cliente"`
 }
