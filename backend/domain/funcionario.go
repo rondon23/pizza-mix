@@ -1,7 +1,7 @@
 package domain
 
 type Funcionario struct {
-	ID     int    `db:"id"`
+	Id     int    `db:"id"`
 	Nome   string `db:"nome"`
 	Rg     string `db:"rg"`
 	Cpf    string `db:"cpf"`
